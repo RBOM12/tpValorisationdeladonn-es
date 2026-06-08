@@ -1,0 +1,76 @@
+===== PAGE 1 =====
+Valorisation de la donn´ee – M2 MIAGE Universit´e de Toulouse
+TP4 : Apprentissage supervis´e (r´egression) et
+intelligence artificielle explicable
+05 Juin 2026
+Dans ce dernier TP, nous revenons sur l’apprentissage supervis´e et l’Intelligence Artifi-
+cielle eXplicable. Le langage de programmation utilis´e est toujours Python. Vous utiliserez
+toujours l’environnement virtuel TP VD du TP1. Pour toutes les manipulations, n’h´esitez
+pas a` consulter la documentation des m´ethodes et biblioth`eques concern´ees. L’utilisation
+d’un notebook est toujours fortement encourag´ee.
+Nous(re)d´ecouvronsuneautretaˆched’apprentissagesupervis´e: lar´egression. Contraire-
+ment a` la classification ou` des valeurs discr`etes (classes) sont pr´edites, nous pr´edirons des
+valeurs continues. Ces valeurs continues sont des prix de maisons.
+1. Charger le jeu de donn´ees housing. Le fichier csv se trouve sur Moodle. Les valeurs `a
+pr´edire sont contenues dans la colonne price. Stockez-les dans un vecteur y. Le reste des
+donn´ees est stock´e dans une matrice X contenant les x . En chargeant le fichier, n’oubliez
+i
+pas que la premi`ere ligne contient les noms des colonnes. En analysant X et y, combien
+d’attributs (variables) et combien de donn´ees contient votre jeu de donn´ees ?
+2. Dans ce jeu de donn´ees, nous avons des variables cat´egorielles. Or, nous ne traitons
+qu’avec des nombres. La premi`ere ´etape apr`es le chargement des donn´ees est donc
+de transformer ces variables cat´egorielles en nombres. Pour ce faire, utilisez un objet
+de la classe OrdinalEncoder de sklearn.preprocessing (https://scikit-learn.org/
+stable/modules/generated/sklearn.preprocessing.OrdinalEncoder.html). Lesvaleurs
+de l’attribut furnishingstatus doiventˆetre modifi´ees ainsi : 0 pour unfurnished, 1 pour
+semi−furnished et 2 pour furnished. Pour les attributs contenant des bool´eens, yes
+devient 1 et no devient 0.
+Pour transformer les variables (ou attributs) cat´egorielles en nombres, la biblioth`eque
+scikit − learn vous donne deux options : 1) Transformer chaque cat´egorie en nombre
+et 2) Transformer chaque cat´egorie en un ensemble de variables d´enotant la pr´esence
+ou l’absence d’une cat´egorie. Par exemple, la variable furnishingstatus de notre jeu
+de donn´ees contient trois cat´egories : furnished pour les maisons meubl´ees, semi −
+furnishedpourlesmaisonssemi-meubl´eesetunfurnishedpourlesmaisonnonmeubl´ees.
+En utilisant la premi`ere approche, on se retrouve avec une variable furnishingstatus
+contenant plutˆot 0 au lieu de unfurnished, 1 au lieu de semi − furnished et 2 au
+lieu de furnished. C’est cette approche que vous devez impl´ementer avec un
+objet de la classe OrdinalEncoder. En utilisant la deuxi`eme approche (que nous
+n’impl´ementerons pas), la variable furnishingstatus se transforme en trois attributs
+nomm´es (par exemple) isUnfurnished, isSemiFurnished et isFurnished. Lorsque
+furnishingstatus vaut donc furnished, on se retrouve avec une valeur de 1 dans la
+colonne isFurnished, une valeur de 0 dans la colonne isSemiFurnished et une valeur
+de 0 dans la colonne isUnfurnished. Le nombre de dimensions du jeu de donn´ees passe
+1
+===== PAGE 2 =====
+Valorisation de la donn´ee – M2 MIAGE Universit´e de Toulouse
+donc de D a` D +2. Cette deuxi`eme approche est appel´ee OneHotEncoding et ne sera
+pas ´etudi´ee.
+3. S´eparerlejeudedonn´eesenunjeud’entraˆınementetunjeudetestcommed’habitude
+en apprentissage supervis´e. Utilisez 70% du jeu de donn´ees pour l’entraˆınement et les
+30% restants pour les tests. En utilisant la fonction train test split, fixez le random
+state a` 42. Le jeu de donn´ees d’entraˆınement sera contenu dans les variables X train et
+y train, et le jeu de donn´ees de test dans les variables X test et y test.
+4. A quoi sert la normalisation ? Normaliser le jeu de donn´ees.
+5. Entraˆıner un r´egresseur SVM en utilisant y train et la version normalis´ee de X train.
+Pour cela, importez et utilisez la classe SVR de sklearn.svm (https://scikit-learn.
+org/stable/modules/generated/sklearn.svm.SVR.html). Utilisezunefonctiondenoyau
+(kernel) rbf.
+Utilisezlam´ethodefitdel’instancedeSVRcr´e´eepourentraˆınervotremod`elesury train
+et la version normalis´ee de X train.
+6. Calculer les pr´edictions de chaque instance de notre jeu de donn´ees de test. Utilisez la
+fonctionpredictdel’instancedeSVRcr´e´eepourobtenirlespr´edictionsdechaqueinstance
+dans la version normalis´ee de X test. Stockez ces pr´edictions dans un vecteur y pred.
+y pred vous donne ainsi les pr´edictions de notre mod`ele, tandis que y test contient les
+vrais prix des maisons.
+7. Pour ´evaluer notre mod`ele, nous allons calculer l’erreur quadratique moyenne (mean
+squared error) et l’erreur absolue moyenne (mean absolute error). L’erreur quadra-
+tique moyenne et la moyenne (sur les donn´ees) du carr´e des diff´erences entre la valeur
+pr´edite et la valeur r´eelle. L’erreur absolue moyenne est la moyenne (sur les donn´ees) des
+valeurs absolues des diff´erences entre valeur pr´edite et valeur r´eelle.
+Utilisezlesfonctionsmean squared error(https://scikit-learn.org/stable/modules/
+generated/sklearn.metrics.mean_squared_error.html)etmean absolute error(https:
+//scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_
+error.html) de sklearn.metrics. Plus ces erreurs sont faibles, meilleur est le mod`ele,
+contrairement a` la pr´ecision et au rappel vus en classification.
+8. Expliquez quelques instances avec LIME et SHAP.
+2
